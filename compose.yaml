@@ -1,0 +1,20 @@
+services:
+
+  gitserver:
+    image: gitea/gitea
+    restart: always
+    volumes:
+      - ./gitea/data:/data
+      - ./repo:/repo
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+  webserver:
+    image: nginx
+    restart: always
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "443:443"

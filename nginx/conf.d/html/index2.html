@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="./index.css">
+    <title>短信解析</title>
+</head>
+<body>
+    <div style="text-align: center; margin: 50px" id="app">
+        <el-button
+                type="primary" round
+                v-on:click="goMap()">查看地图</el-button>
+        <el-input
+                type="textarea"
+                style="margin-top: 50px"
+                :rows="10"
+                placeholder="请输入内容"
+                v-model="geoTxt">
+        </el-input>
+    </div>
+</body>
+<!-- import Vue before Element -->
+<script src="./vue.js"></script>
+<!-- import JavaScript -->
+<script src="./index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                geoTxt: ''
+            }
+        },
+        methods: {
+            goMap: function () {
+                if (this.geoTxt != null) {
+                    let lng = null
+                    let lat = null
+                    this.geoTxt.trim().split('\n').forEach(function (v) {
+                        if (v.startsWith('经度: ')) {
+                            lng = v.split(' ')[1].trim()
+                        }
+                        if (v.startsWith('纬度: ')) {
+                            lat = v.split(' ')[1].trim()
+                        }
+                    })
+                    if (lng && lat) {
+			url = 'https://m.amap.com/share/index/lnglat=' + lng + ',' + lat + '&name=%E7%9B%AE%E6%A0%87%E4%BD%8D%E7%BD%AE&callnative=1'
+                        ua2 = 'https://m.amap.com/navi/?dest=' + lng + ',' + lat + '&destName=%E7%9B%AE%E6%A0%87%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=363dd06651c6ad71403c04f06dd99da9'
+                        window.location = url
+                    }
+                }
+            }
+        }
+    })
+</script>
+</html>
